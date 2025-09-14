@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
-import { Search, MapPin, Phone, Clock, Filter, Heart } from 'lucide-react';
+import { Search, MapPin, Phone, Clock, Filter, Heart, Users } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { BloodGroup } from '../../types';
+import { PlaceholdersAndVanishInput } from '../../components/ui/placeholders-and-vanish-input';
+import { AnimatedTooltip } from '../../components/ui/animated-tooltip';
+import { FollowerPointerCard } from '../../components/ui/following-pointer';
 
 export const BloodSearchPage: React.FC = () => {
   const [searchFilters, setSearchFilters] = useState({
@@ -53,6 +56,41 @@ export const BloodSearchPage: React.FC = () => {
     { value: 'low', label: 'Low', color: 'bg-green-100 text-green-800' }
   ];
 
+  const placeholders = [
+    "Search for O+ blood in your area...",
+    "Find A- blood units near me...",
+    "Emergency B+ blood needed...",
+    "Locate AB- blood donors...",
+    "Search blood banks in city center...",
+  ];
+
+  const recentDonors = [
+    {
+      id: 1,
+      name: "John Smith",
+      designation: "O+ Donor",
+      image: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80",
+    },
+    {
+      id: 2,
+      name: "Sarah Johnson",
+      designation: "A+ Donor",
+      image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80",
+    },
+    {
+      id: 3,
+      name: "Mike Davis",
+      designation: "B- Donor",
+      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80",
+    },
+    {
+      id: 4,
+      name: "Emily Chen",
+      designation: "AB+ Donor",
+      image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80",
+    },
+  ];
+
   const handleSearch = () => {
     // Simulate search - in real app this would call an API
     console.log('Searching with filters:', searchFilters);
@@ -61,6 +99,15 @@ export const BloodSearchPage: React.FC = () => {
   const handleEmergencyRequest = (result: any) => {
     // Handle emergency blood request
     alert(`Emergency request sent to ${result.location} for ${result.bloodGroup} blood`);
+  };
+
+  const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    handleSearch();
+  };
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('Search query:', e.target.value);
   };
 
   return (
@@ -79,6 +126,24 @@ export const BloodSearchPage: React.FC = () => {
             <p className="text-xl opacity-90 max-w-2xl mx-auto">
               Search for available blood units near you. Get real-time information and make emergency requests instantly.
             </p>
+            
+            {/* Enhanced Search Bar */}
+            <div className="mt-8">
+              <PlaceholdersAndVanishInput
+                placeholders={placeholders}
+                onChange={handleSearchChange}
+                onSubmit={handleSearchSubmit}
+              />
+            </div>
+
+            {/* Recent Donors */}
+            <div className="mt-12">
+              <div className="flex items-center justify-center space-x-2 mb-4">
+                <Users className="h-5 w-5" />
+                <span className="text-lg font-medium">Recent Donors</span>
+              </div>
+              <AnimatedTooltip items={recentDonors} />
+            </div>
           </motion.div>
         </div>
       </div>
@@ -184,25 +249,122 @@ export const BloodSearchPage: React.FC = () => {
 
           <div className="grid grid-cols-1 gap-6">
             {searchResults.map((result, index) => (
-              <motion.div
+              <FollowerPointerCard
                 key={result.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="bg-white p-6 rounded-xl shadow-md border border-gray-200 hover:shadow-lg transition-shadow"
+                title={
+                  <div className="flex items-center space-x-2">
+                    <Heart className="h-4 w-4 text-red-500" />
+                    <span>{result.bloodGroup} Available</span>
+                  </div>
+                }
               >
-                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-                  <div className="flex-1">
-                    <div className="flex items-center space-x-4 mb-4">
-                      <div className="bg-red-100 p-3 rounded-lg">
-                        <Heart className="h-6 w-6 text-red-600" />
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  className="bg-white p-6 rounded-xl shadow-md border border-gray-200 hover:shadow-lg transition-shadow"
+                >
+                  <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+                    <div className="flex-1">
+                      <div className="flex items-center space-x-4 mb-4">
+                        <div className="bg-red-100 p-3 rounded-lg">
+                          <Heart className="h-6 w-6 text-red-600" />
+                        </div>
+                        <div>
+                          <h4 className="text-lg font-semibold text-gray-900">{result.location}</h4>
+                          <div className="flex items-center space-x-4 text-sm text-gray-600">
+                            <div className="flex items-center space-x-1">
+                              <MapPin className="h-4 w-4" />
+                              <span>{result.distance}</span>
+                            </div>
+                            <div className="flex items-center space-x-1">
+                              <Clock className="h-4 w-4" />
+                              <span>{result.lastUpdated}</span>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                      <div>
-                        <h4 className="text-lg font-semibold text-gray-900">{result.location}</h4>
-                        <div className="flex items-center space-x-4 text-sm text-gray-600">
-                          <div className="flex items-center space-x-1">
-                            <MapPin className="h-4 w-4" />
-                            <span>{result.distance}</span>
+
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div>
+                          <p className="text-sm text-gray-600">Blood Group</p>
+                          <p className="text-lg font-semibold text-red-600">{result.bloodGroup}</p>
+                        </div>
+                        <div>
+                          <p className="text-sm text-gray-600">Units Available</p>
+                          <p className="text-lg font-semibold text-gray-900">{result.units}</p>
+                        </div>
+                        <div>
+                          <p className="text-sm text-gray-600">Availability</p>
+                          <p className="text-lg font-semibold text-green-600">{result.availability}</p>
+                        </div>
+                        <div>
+                          <p className="text-sm text-gray-600">Contact</p>
+                          <a href={`tel:${result.contact}`} className="text-lg font-semibold text-blue-600 hover:text-blue-700">
+                            {result.contact}
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row lg:flex-col gap-3 lg:w-48">
+                      <button
+                        onClick={() => handleEmergencyRequest(result)}
+                        className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center justify-center space-x-2"
+                      >
+                        <Phone className="h-4 w-4" />
+                        <span>Request Now</span>
+                      </button>
+                      <button className="border border-red-600 text-red-600 hover:bg-red-50 px-6 py-3 rounded-lg font-medium transition-colors">
+                        View Details
+                      </button>
+                    </div>
+                  </div>
+                </motion.div>
+              </FollowerPointerCard>
+            ))}
+          </div>
+        </div>
+
+        {/* Enhanced Emergency Contact */}
+        <FollowerPointerCard
+          title={
+            <div className="flex items-center space-x-2">
+              <span className="text-2xl">🚨</span>
+              <span>Emergency Blood Request</span>
+            </div>
+          }
+        >
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+            className="mt-12 bg-gradient-to-r from-red-600 to-pink-600 text-white p-8 rounded-xl text-center"
+          >
+            <h3 className="text-2xl font-bold mb-4">Need Emergency Blood?</h3>
+            <p className="text-lg opacity-90 mb-6">
+              For critical emergencies, call our 24/7 hotline for immediate assistance
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <a
+                href="tel:911"
+                className="bg-white text-red-600 px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition-colors"
+              >
+                🚨 Call 911
+              </a>
+              <a
+                href="tel:+1234567890"
+                className="border-2 border-white text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-white hover:text-red-600 transition-colors"
+              >
+                📞 Blood Hotline
+              </a>
+            </div>
+          </motion.div>
+        </FollowerPointerCard>
+      </div>
+    </div>
+  );
+};
                           </div>
                           <div className="flex items-center space-x-1">
                             <Clock className="h-4 w-4" />
