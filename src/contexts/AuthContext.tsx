@@ -77,6 +77,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setLoading(true);
     try {
       await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Handle Google authentication
+      if (userData.googleAuth) {
+        const mockUser: User = {
+          id: '1',
+          name: userData.name,
+          email: userData.email,
+          phone: userData.phone || '+1234567890',
+          role: userData.role as any,
+          verified: true,
+          createdAt: new Date().toISOString(),
+        };
+        
+        setUser(mockUser);
+        localStorage.setItem('bloodbank_user', JSON.stringify(mockUser));
+      }
+      
       return true;
     } catch (error) {
       return false;
