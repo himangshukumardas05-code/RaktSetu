@@ -139,7 +139,7 @@ export const LoginPage: React.FC = () => {
         <div className="text-center">
           <div className="flex items-center justify-center space-x-2 mb-6">
             <Heart className="h-12 w-12 text-red-600 animate-pulse" />
-            <h1 className="text-3xl font-bold text-gray-900">BloodConnect</h1>
+            <h1 className="text-3xl font-bold text-gray-900">RaktSetu</h1>
           </div>
           <h2 className="text-2xl font-bold text-gray-900">Sign in to your account</h2>
           <p className="mt-2 text-gray-600">Access your dashboard and manage your profile</p>

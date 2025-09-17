@@ -129,7 +129,7 @@ export const FollowPointer = ({
         }}
         className="min-w-max rounded-full bg-neutral-200 px-2 py-2 text-xs whitespace-nowrap text-white"
       >
-        {title || "BloodConnect"}
+        {title || "RaktSetu"}
       </motion.div>
     </motion.div>
   );

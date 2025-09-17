@@ -413,7 +413,7 @@ const Logo = () => {
         animate={{ opacity: 1 }}
         className="font-medium whitespace-pre text-black dark:text-white"
       >
-        BloodConnect
+        RaktSetu
       </motion.span>
     </a>
   );

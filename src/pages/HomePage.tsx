@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Heart, Search, UserPlus, Building, Shield, Clock, MapPin, Users } from 'lucide-react';
+import { Heart, Search, UserPlus, Building, Shield, Clock, MapPin } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export const HomePage: React.FC = () => {
@@ -37,13 +37,6 @@ export const HomePage: React.FC = () => {
     }
   ];
 
-  const stats = [
-    { number: '10,000+', label: 'Registered Donors' },
-    { number: '500+', label: 'Partner Hospitals' },
-    { number: '25,000+', label: 'Lives Saved' },
-    { number: '50+', label: 'Cities Covered' }
-  ];
-
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -58,7 +51,7 @@ export const HomePage: React.FC = () => {
           >
             <div className="flex items-center justify-center space-x-3 mb-6">
               <Heart className="h-16 w-16 text-white animate-pulse" />
-              <h1 className="text-5xl md:text-6xl font-bold">BloodConnect</h1>
+              <h1 className="text-5xl md:text-6xl font-bold">RaktSetu</h1>
             </div>
             <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto leading-relaxed">
               Connecting hearts, saving lives. A comprehensive blood bank management system 
@@ -158,7 +151,7 @@ export const HomePage: React.FC = () => {
             transition={{ duration: 0.6 }}
             className="text-center mb-12"
           >
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Why Choose BloodConnect?</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Why Choose RaktSetu?</h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               Our advanced platform makes blood management efficient, secure, and accessible for everyone
             </p>
@@ -178,36 +171,6 @@ export const HomePage: React.FC = () => {
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900 mb-3">{feature.title}</h3>
                 <p className="text-gray-600">{feature.description}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Stats Section */}
-      <section className="py-16 bg-red-600 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-3xl font-bold mb-4">Our Impact</h2>
-            <p className="text-xl opacity-90">Making a difference in communities worldwide</p>
-          </motion.div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {stats.map((stat, index) => (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, scale: 0.5 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="text-center"
-              >
-                <div className="text-4xl md:text-5xl font-bold mb-2">{stat.number}</div>
-                <div className="text-lg opacity-90">{stat.label}</div>
               </motion.div>
             ))}
           </div>

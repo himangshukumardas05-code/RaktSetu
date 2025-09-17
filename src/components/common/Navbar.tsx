@@ -25,7 +25,7 @@ export const Navbar = () => {
               <Heart className="h-6 w-6 text-white" />
             </div>
             <span className="text-xl font-bold text-gray-900 group-hover:text-red-600 transition-colors duration-200">
-              BloodConnect
+              RaktSetu
             </span>
           </Link>
 
