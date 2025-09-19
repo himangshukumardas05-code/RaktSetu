@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 interface DashboardCardProps {
   title: string;
   value: string | number;
-  icon: LucideIcon;
+  icon:typeof LucideIcon;
   color: 'red' | 'blue' | 'green' | 'yellow' | 'purple' | 'indigo';
   trend?: {
     value: number;

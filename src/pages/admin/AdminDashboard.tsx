@@ -34,6 +34,7 @@ import {
 import { motion } from 'framer-motion';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from 'recharts';
 import { cn } from '@/lib/utils';
+import { type ClassValue } from 'clsx';
 
 export const AdminDashboard: React.FC = () => {
   const { user } = useAuth();
@@ -128,7 +129,7 @@ export const AdminDashboard: React.FC = () => {
     { id: '4', hospital: 'Community Hospital', bloodGroup: 'AB+', units: 4, urgency: 'low', time: '1 hour ago' },
   ];
 
-  const urgencyColors = {
+  const urgencyColors:Record<string,string>= {
     critical: 'bg-red-100 text-red-800 border-red-200',
     high: 'bg-orange-100 text-orange-800 border-orange-200',
     medium: 'bg-yellow-100 text-yellow-800 border-yellow-200',

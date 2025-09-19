@@ -28,8 +28,48 @@ export interface HospitalProfile {
   capacity: number;
   specialties: string[];
 }
+// src/types/index.ts
+// src/types.ts
+
+// Add this export line 👇
+export type Role = 'admin' | 'donor' | 'hospital' | 'seeker';
+
+// Your other types...
+export interface DonorProfile {
+  
+  dateOfBirth: string;
+  // ...
+}
+
+export interface User {
+  id: string;
+  name: string;
+  role: Role; // This now correctly refers to the exported type
+  // ...
+}
 
 export type BloodGroup = 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-';
+
+export type Urgency = 'critical' | 'high' | 'medium' | 'low';
+export type Status = 'pending' | 'approved' | 'fulfilled' | 'rejected';
+
+export interface Request {
+  id: string;
+  bloodGroup: BloodGroup;
+  units: number;
+  urgency: Urgency;
+  status: Status;
+  requestDate: string;
+  patientId: string;
+  department: string;
+}
+
+export interface InventoryItem {
+  bloodGroup: BloodGroup;
+  available: number;
+  reserved: number;
+  expiring: number;
+}
 
 export interface BloodUnit {
   id: string;

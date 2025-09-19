@@ -1,16 +1,21 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { User } from '../types';
+// src/contexts/AuthContext.tsx
 
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { User, Role } from '../types'; // Import the newly defined types
+
+// 1. Define the shape of the context data
 interface AuthContextType {
   user: User | null;
-  login: (email: string, password: string, role: string) => Promise<boolean>;
+  login: (email: string, password: string, role: Role) => Promise<boolean>;
   logout: () => void;
-  register: (userData: any) => Promise<boolean>;
+  register: (userData: any) => Promise<boolean>; // 'any' kept for flexibility with different registration data
   loading: boolean;
 }
 
+// 2. Create the context with an initial undefined value
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// 3. Create a custom hook for easy access to the context
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
@@ -19,26 +24,33 @@ export const useAuth = () => {
   return context;
 };
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+// 4. Create the AuthProvider component
+export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
+  // Effect to check for a logged-in user in localStorage on initial app load
   useEffect(() => {
-    // Check for stored user data on mount
-    const storedUser = localStorage.getItem('bloodbank_user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
+    try {
+      const storedUser = localStorage.getItem('bloodbank_user');
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+      }
+    } catch (error) {
+      console.error("Failed to parse user from localStorage", error);
+      localStorage.removeItem('bloodbank_user');
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   }, []);
 
-  const login = async (email: string, password: string, role: string): Promise<boolean> => {
+  const login = async (email: string, password: string, role: Role): Promise<boolean> => {
     setLoading(true);
     try {
-      // Simulate API call
+      // Simulate an API call to authenticate the user
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      // Mock user data based on role
+      // Mock user data based on role for demonstration
       const mockUser: User = {
         id: '1',
         name: role === 'admin' ? 'Admin User' : 
@@ -46,7 +58,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
               role === 'hospital' ? 'City Hospital' : 'Blood Seeker',
         email,
         phone: '+1234567890',
-        role: role as any,
+        role, // Use the role directly, no need for 'as any'
         verified: true,
         createdAt: new Date().toISOString(),
       };
@@ -59,7 +71,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           totalDonations: 5,
           address: '123 Main St, City',
           emergencyContact: '+9876543210',
-          eligibleNext: '2024-03-01'
+          eligibleNext: '2025-12-01' // Updated date
         };
       }
 
@@ -67,6 +79,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       localStorage.setItem('bloodbank_user', JSON.stringify(mockUser));
       return true;
     } catch (error) {
+      console.error("Login failed:", error);
       return false;
     } finally {
       setLoading(false);
@@ -78,24 +91,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      // Handle Google authentication
-      if (userData.googleAuth) {
-        const mockUser: User = {
-          id: '1',
+      // This part assumes registration data comes from a source like Google Auth
+      if (userData.name && userData.email && userData.role) {
+        const newUser: User = {
+          id: Date.now().toString(), // Simple unique ID
           name: userData.name,
           email: userData.email,
-          phone: userData.phone || '+1234567890',
-          role: userData.role as any,
+          phone: userData.phone || '+1234567890', // Default phone
+          role: userData.role,
           verified: true,
           createdAt: new Date().toISOString(),
         };
         
-        setUser(mockUser);
-        localStorage.setItem('bloodbank_user', JSON.stringify(mockUser));
+        setUser(newUser);
+        localStorage.setItem('bloodbank_user', JSON.stringify(newUser));
+        return true;
       }
-      
-      return true;
+      return false;
     } catch (error) {
+      console.error("Registration failed:", error);
       return false;
     } finally {
       setLoading(false);
@@ -107,9 +121,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.removeItem('bloodbank_user');
   };
 
+  const value = { user, login, logout, register, loading };
+
   return (
-    <AuthContext.Provider value={{ user, login, logout, register, loading }}>
-      {children}
+    <AuthContext.Provider value={value}>
+      {!loading && children}
     </AuthContext.Provider>
   );
 };
