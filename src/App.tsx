@@ -13,6 +13,8 @@ import { AdminDashboard } from './pages/admin/AdminDashboard';
 import { DonorDashboard } from './pages/donor/DonorDashboard';
 import { BloodSearchPage } from './pages/seeker/BloodSearchPage';
 import { HospitalDashboard } from './pages/hospital/HospitalDashboard';
+import BloodSeeker from './pages/seeker/BloodSeeker';
+import Seeker1 from './pages/seeker/Seeker1';
 
 function App() {
   return (
@@ -29,6 +31,24 @@ function App() {
               <Route path="/auth/login" element={<LoginPage />} />
               <Route path="/auth/register" element={<RegisterPage />} />
               <Route path="/seeker/search" element={<BloodSearchPage />} />
+
+              {/* Protected Seeker Routes */}
+              <Route
+                path="/seeker/request"
+                element={
+                  <ProtectedRoute allowedRoles={['seeker']}>
+                    <BloodSeeker />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/seeker/dashboard"
+                element={
+                  <ProtectedRoute allowedRoles={['seeker']}>
+                    <Seeker1 />
+                  </ProtectedRoute>
+                }
+              />
 
               {/* Protected Admin Routes */}
               <Route 

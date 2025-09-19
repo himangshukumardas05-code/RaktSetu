@@ -302,11 +302,13 @@ export const LoginPage: React.FC = () => {
             type="submit"
             disabled={isSubmitting || loading}
             className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 transform hover:scale-105"
+            
           >
             {isSubmitting || loading ? (
               <div className="flex items-center space-x-2">
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
                 <span>Signing in...</span>
+                
               </div>
             ) : (
               'Sign in'

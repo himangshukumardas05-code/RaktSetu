@@ -3,6 +3,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { PlaceholdersAndVanishInput } from '../../components/ui/placeholders-and-vanish-input';
 import { AnimatedTooltip } from '../../components/ui/animated-tooltip';
 import { FollowerPointerCard } from '../../components/ui/following-pointer';
+
 import { 
   Search, 
   MapPin, 
