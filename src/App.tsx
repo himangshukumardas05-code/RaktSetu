@@ -10,7 +10,7 @@ import { HomePage } from './pages/HomePage';
 import { LoginPage } from './pages/auth/LoginPage';
 import { RegisterPage } from './pages/auth/RegisterPage';
 import { AdminDashboard } from './pages/admin/AdminDashboard';
-import { DonorDashboard } from './pages/donor/DonorDashboard';
+import Dashboard from './pages/donor/donor';
 import { BloodSearchPage } from './pages/seeker/BloodSearchPage';
 import { HospitalDashboard } from './pages/hospital/HospitalDashboard';
 
@@ -41,13 +41,13 @@ function App() {
               />
 
               {/* Protected Donor Routes */}
-              <Route 
-                path="/donor/dashboard" 
+              <Route
+                path="/donor/dashboard"
                 element={
                   <ProtectedRoute allowedRoles={['donor']}>
-                    <DonorDashboard />
+                    <Dashboard />
                   </ProtectedRoute>
-                } 
+                }
               />
 
               {/* Protected Hospital Routes */}
