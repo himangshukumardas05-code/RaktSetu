@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Heart, Menu, X, User, LogOut, Bell, Search, Settings, Home, BarChart3, Calendar, Users, Droplet } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
-import logo from '../../public/logo.png';
+import Logo from '../../images/LogoFinal-removebg-preview.png'
 
 export const Navbar = () => {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
@@ -53,13 +53,9 @@ export const Navbar = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
             {/* Logo - Improved sizing and spacing */}
-            <Link to="/" className="flex items-center space-x-3 group flex-shrink-0">
+            <Link to="/" className="flex items-center  group flex-shrink-0">
               <div className="rounded-lg transition-all duration-300 transform group-hover:scale-105">
-                <img 
-                  src={logo}
-                  alt="RaktSetu Logo"
-                  className="h-14 w-14 object-contain" 
-                />
+                <img src={Logo} alt="" className=" h-[9vh] w-[4vw] object-contain"/>
               </div>
               <span className="text-2xl font-bold bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent group-hover:from-red-700 group-hover:to-red-800 transition-all duration-300">
                 RaktSetu
